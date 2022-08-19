@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.14.2)
 project(c-cut C)
 
 include(CTest)
 enable_testing()
+
+include_directories(include)
 
 add_executable(c-cut main.c)
 
@@ -10,7 +12,11 @@ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-# Include cmake modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-include(Warnings)
+#Add warning flags
+
+if(CMAKE_COMPILER_IS_GNUCC)
+  target_compile_options(${PROJECT_NAME} PUBLIC -Wall -pedantic -Wextra)
+elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+  add_compile_options(${PROJECT_NAME} PUBLIC -Wall)
+endif()
 
