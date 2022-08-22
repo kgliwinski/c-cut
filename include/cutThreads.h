@@ -13,6 +13,8 @@ typedef struct cutThreads_t
     pthread_t printerThread;
     pthread_t watchdogThread;
     pthread_t loggerThread; 
+
+    
 }cutThreads_t;
 
 /*! \brief Reads the contents of /proc/stat file and sends 
