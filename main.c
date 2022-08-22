@@ -1,10 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-//#include "header.h"
+#include <pthread.h>
+
+#include "cutThreads.h"
+
+cutThreads_t cutThreads;
 
 int main()
 {
-    u_int8_t b = 10;
-    printf("Hello World!\n");
-    return 0;
+    pthread_create(&cutThreads.analyzerThread, NULL, &analyzerFunc, NULL);
+    pthread_join(cutThreads.analyzerThread, NULL);
+    printf("In main\n");
+    return EXIT_SUCCESS;
 }
