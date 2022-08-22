@@ -20,12 +20,12 @@ jobs:
         config:
         - {
           name: "Ubuntu latest clang",
-          cc: "cl"
-        }
+          cc: "clang"
+          }
         - {
           name: "Ubuntu latest gcc",
           cc: "gcc"
-        }
+          }
       steps:
     - uses: actions/checkout@v3
 
