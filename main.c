@@ -8,6 +8,7 @@ cutThreads_t cutThreads;
 
 int main()
 {
+
     pthread_create(&cutThreads.readerThread, NULL, &readerFunc, NULL);
     pthread_create(&cutThreads.analyzerThread, NULL, &analyzerFunc, NULL);
     pthread_create(&cutThreads.printerThread, NULL, &printerFunc, NULL);
