@@ -18,6 +18,6 @@ typedef struct statStruct_t{
     cpuStruct_t cpu[];
 }statStruct_t;
 
-void readProcStat();
+void readProcStat(char *buff, char *tmp, FILE *procStat);
 
 #endif
