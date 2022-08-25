@@ -32,18 +32,18 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 # Add warning flags
 if(CMAKE_COMPILER_IS_GNUCC)
   target_compile_options(${PROJECT_NAME} PUBLIC -Wall --pedantic -Wextra -pthread)
-elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "clang")
   add_compile_options(${PROJECT_NAME} PUBLIC -Weverything -pthread)
 endif()
 
 # tests
-add_executable(c_test ${PROJECT_SOURCE_DIR}/tests/test.c)
-target_link_libraries(c_test -lpthread -lX11)
+add_executable(ex_test ${PROJECT_SOURCE_DIR}/tests/test.c)
+target_link_libraries(ex_test -lpthread -lX11)
 
 enable_testing()
 
 # define tests
 add_test(
-  NAME c_test
-  COMMAND $<TARGET_FILE:c_test>
+  NAME ex_test
+  COMMAND $<TARGET_FILE:ex_test>
 )
