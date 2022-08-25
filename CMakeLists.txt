@@ -33,9 +33,9 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Add warning flags
 if(CMAKE_COMPILER_IS_GNUCC)
-  add_compile_options(${PROJECT_NAME} PUBLIC -pthread -Wall -pedantic -Wextra )
+  target_compile_options(${PROJECT_NAME} PUBLIC -Wall --pedantic -Wextra -pthread )
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  add_compile_options(${PROJECT_NAME} PUBLIC -pthread -Weverything -pthread)
+  add_compile_options(${PROJECT_NAME} PUBLIC -Weverything -pthread)
 endif()
 
 

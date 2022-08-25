@@ -1,28 +1,35 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include "cutThreads.h"
 #include "statStruct.h"
-#include <stdlib.h>
-#include <stdio.h>
 
-const size_t buffSize = 20;
-const size_t tmpSize = 4;
+#define BUFF_SIZE 20
+#define TMP_SIZE 4
+#define SLEEP_TIME 1.0f
 
-void *readerFunc(void *arg)
-{
-    printf("Reader works!\n");
-    statStruct_t str;
-    size_t i = 0;
-    char *buff = calloc(buffSize, sizeof(char));
-    char *tmp = calloc(tmpSize, sizeof(char));
+void *readerFunc(void *arg) {
+  (void)arg;  // to hide the unused parameter warning
+  printf("Reader works!\n");
+  statStruct_t stat;
+  char *buff = calloc(BUFF_SIZE, sizeof(char));
+  char *tmp = calloc(TMP_SIZE, sizeof(char));
 
-    tmp[tmpSize - 1] = '\0';
-    FILE *procStat;
+  tmp[TMP_SIZE - 1] = '\0';
+  FILE *procStat;
+  // str = readProcStat();
+  while (1) {
     procStat = fopen("/proc/stat", "r");
-
-    // str = readProcStat();
-    readProcStat(buff, tmp, procStat);
-
-    free(buff);
-    free(tmp);
+    rewind(procStat);
+    readProcStat(buff, tmp, procStat, &stat);
     fclose(procStat);
-    return 0;
+    sleep(SLEEP_TIME);
+  }
+
+  free(buff);
+  free(tmp);
+
+  return 0;
 }
