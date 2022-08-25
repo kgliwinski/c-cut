@@ -13,7 +13,6 @@ link_directories(
   ${PROJECT_SOURCE_DIR}/include
   ${PROJECT_SOURCE_DIR}/source)
 
-
 file(GLOB all_SRCS
   "${PROJECT_SOURCE_DIR}/include/*.h"
   "${PROJECT_SOURCE_DIR}/source/*.c"
@@ -21,7 +20,6 @@ file(GLOB all_SRCS
 )
 
 add_executable(${PROJECT_NAME} ${all_SRCS})
-
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
@@ -33,9 +31,19 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Add warning flags
 if(CMAKE_COMPILER_IS_GNUCC)
-  target_compile_options(${PROJECT_NAME} PUBLIC -Wall --pedantic -Wextra -pthread )
+  target_compile_options(${PROJECT_NAME} PUBLIC -Wall --pedantic -Wextra -pthread)
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
   add_compile_options(${PROJECT_NAME} PUBLIC -Weverything -pthread)
 endif()
 
+# tests
+add_executable(c_test ${PROJECT_SOURCE_DIR}/tests/test.c)
+target_link_libraries(c_test -lpthread -lX11)
 
+enable_testing()
+
+# define tests
+add_test(
+  NAME c_test
+  COMMAND $<TARGET_FILE:c_test>
+)

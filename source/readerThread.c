@@ -14,6 +14,7 @@ void *readerFunc(void *arg) {
   (void)arg;  // to hide the unused parameter warning
   printf("Reader works!\n");
   statStruct_t stat;
+  struct timespec time;
   char *buff = calloc(BUFF_SIZE, sizeof(char));
   char *tmp = calloc(TMP_SIZE, sizeof(char));
 
@@ -22,6 +23,9 @@ void *readerFunc(void *arg) {
   // str = readProcStat();
   while (1) {
     procStat = fopen("/proc/stat", "r");
+    // measure sample time
+    clock_gettime(CLOCK_MONOTONIC_RAW, &time);
+    stat.sampleTimeMS = time.tv_sec * 1000000 + time.tv_sec / 1000;
     rewind(procStat);
     readProcStat(buff, tmp, procStat, &stat);
     fclose(procStat);
