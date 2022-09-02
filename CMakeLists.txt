@@ -31,19 +31,19 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Add warning flags
 if(CMAKE_COMPILER_IS_GNUCC)
-  target_compile_options(${PROJECT_NAME} PUBLIC -Wall --pedantic -Wextra -pthread)
+  target_compile_options(${PROJECT_NAME} PUBLIC -Wall --pedantic -Wextra -pthread -fno-stack-protector)
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "clang")
   add_compile_options(${PROJECT_NAME} PUBLIC -Weverything -pthread)
 endif()
 
 # tests
-add_executable(ex_test ${PROJECT_SOURCE_DIR}/tests/test.c)
-target_link_libraries(ex_test -lpthread -lX11)
+add_executable(reader_test ${PROJECT_SOURCE_DIR}/tests/readerTest.c)
+target_link_libraries(reader_test -lpthread -lX11)
 
 enable_testing()
 
 # define tests
 add_test(
-  NAME ex_test
-  COMMAND $<TARGET_FILE:ex_test>
+  NAME reader_test
+  COMMAND $<TARGET_FILE:reader_test>
 )
