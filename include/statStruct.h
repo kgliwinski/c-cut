@@ -4,9 +4,8 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include "msTimer.h"
 
 /*! \struct cpuStruct_t constains data aquired when reading the
  *  cpuN data from /proc/stat*/
@@ -24,7 +23,7 @@ typedef struct cpuStruct_t {
 /*! \struct statStruct_t contains data from a whole reading of /proc/stat
  *  file, with the time of the reading*/
 typedef struct statStruct_t {
-  unsigned long long int sampleTimeMS;
+  time_t sampleTimeMS;
   size_t cpuNum;
   cpuStruct_t *cpu;
 } statStruct_t;

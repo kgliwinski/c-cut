@@ -4,15 +4,15 @@
 
 #define BUFF_SIZE 20
 #define TMP_SIZE 4
-#define SLEEP_TIME 1.0f
 
 extern statStructQueue_t statQueue;
+extern size_t statCpuNum;
+extern msTimer_t cutTimer;
 
 void *readerFunc(void *arg)
 {
   (void)arg;  // to hide the unused parameter warning
   printf("Reader works!\n");
-  struct timespec time;
   int i = 0;
   char *buff = calloc(BUFF_SIZE, sizeof(char));
   char *tmp = calloc(TMP_SIZE, sizeof(char));
@@ -25,7 +25,7 @@ void *readerFunc(void *arg)
     // TODO log
     printf("ERROR: Cannot scan /proc/stat\n");
   }
-
+  statCpuNum = stat.cpuNum;
   stat.cpu = calloc(stat.cpuNum, sizeof(cpuStruct_t));
 
   if (!initSsq(&statQueue, &stat))
@@ -45,29 +45,17 @@ void *readerFunc(void *arg)
       // TODO log
       printf("ERROR: cannot open /proc/stat\n");
     }
-    clock_gettime(CLOCK_MONOTONIC_RAW, &time);
-    stat.sampleTimeMS = time.tv_sec * 1000000 + time.tv_sec / 1000;
+    stat.sampleTimeMS = getTimeMst(&cutTimer);
     if (enqueueSsq(&statQueue, &stat))
     {
       printf("Enqueue works\n");
     }
-    sleep(SLEEP_TIME);
+    usleep(READER_SLEEP_TIME);
   }
 
-  i = 0;
-  while (i < 3)
-  {
-    if (dequeueSsq(&statQueue, &stat))
-    {
-      printf("Dequeue works\n");
-    }
-    printProcStat(&stat);
-    i++;
-  }
   free(buff);
   free(tmp);
-  freeSsq(&statQueue);
   free(stat.cpu);
-  // TODO free statQueue.stats.cpu
+
   return 0;
 }

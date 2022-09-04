@@ -71,7 +71,7 @@ bool readProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat)
 
 void printProcStat(statStruct_t *stat)
 {
-  printf("TIME: %llu\n", stat->sampleTimeMS);
+  printf("TIME: %lu\n", stat->sampleTimeMS);
   for (size_t i = 0; i < stat->cpuNum; ++i)
   {
     printf("CPU%lu: %llu, %llu, %llu, %llu, %llu, %llu, %llu\n", i,
