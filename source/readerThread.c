@@ -5,7 +5,6 @@
 #define BUFF_SIZE 20
 #define TMP_SIZE 4
 #define SLEEP_TIME 1.0f
-#define MAX_QUEUE_SIZE 25
 
 extern statStructQueue_t statQueue;
 
@@ -17,58 +16,48 @@ void *readerFunc(void *arg)
   int i = 0;
   char *buff = calloc(BUFF_SIZE, sizeof(char));
   char *tmp = calloc(TMP_SIZE, sizeof(char));
-  FILE *procStat = fopen("/proc/stat", "r");
-  rewind(procStat);
+  FILE *procStat = NULL;
 
-  statStruct_t stat;
+  statStruct_t stat = {.cpuNum = 0, .sampleTimeMS = 0, .cpu = NULL};
 
   if (!scanProcStat(buff, tmp, procStat, &stat))
   {
     // TODO log
     printf("ERROR: Cannot scan /proc/stat\n");
   }
-  fclose(procStat);
+
   stat.cpu = calloc(stat.cpuNum, sizeof(cpuStruct_t));
 
-  statQueue = (statStructQueue_t){
-      0, 0, MAX_QUEUE_SIZE, malloc(MAX_QUEUE_SIZE * sizeof(statStruct_t))};
-  for (i = 0; i < MAX_QUEUE_SIZE; ++i)
+  if (!initSsq(&statQueue, &stat))
   {
-    statQueue.stats[i].cpu = calloc(stat.cpuNum, sizeof(cpuStruct_t));
+    // TODO log
+    printf("Error init\n");
   }
+
   tmp[TMP_SIZE - 1] = '\0';
   // str = readProcStat();
   i = 0;
   while (i++ < 3)
   {
-    if ((procStat = fopen("/proc/stat", "r")) != NULL)
+    // measure sample time
+    if (!readProcStat(buff, tmp, procStat, &stat))
     {
-      // measure sample time
-      clock_gettime(CLOCK_MONOTONIC_RAW, &time);
-      stat.sampleTimeMS = time.tv_sec * 1000000 + time.tv_sec / 1000;
-      rewind(procStat);
-      if (!readProcStat(buff, tmp, procStat, &stat))
-      {
-        // TODO log
-        printf("ERROR: cannot open /proc/stat\n");
-      }
-      fclose(procStat);
-      if (enqueue(&statQueue, &stat))
-      {
-        printf("Enqueue works\n");
-      }
-      printf("%i\n", isEmpty(&statQueue));
-      sleep(SLEEP_TIME);
+      // TODO log
+      printf("ERROR: cannot open /proc/stat\n");
     }
-    else
+    clock_gettime(CLOCK_MONOTONIC_RAW, &time);
+    stat.sampleTimeMS = time.tv_sec * 1000000 + time.tv_sec / 1000;
+    if (enqueueSsq(&statQueue, &stat))
     {
-      sleep(SLEEP_TIME);
+      printf("Enqueue works\n");
     }
+    sleep(SLEEP_TIME);
   }
+
   i = 0;
   while (i < 3)
   {
-    if (dequeue(&statQueue, &stat))
+    if (dequeueSsq(&statQueue, &stat))
     {
       printf("Dequeue works\n");
     }
@@ -77,8 +66,8 @@ void *readerFunc(void *arg)
   }
   free(buff);
   free(tmp);
+  freeSsq(&statQueue);
   free(stat.cpu);
-  free(statQueue.stats);
   // TODO free statQueue.stats.cpu
   return 0;
 }

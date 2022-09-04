@@ -1,28 +1,35 @@
 #include "statStructQueue.h"
 
-/*
-void* queue_read(queue_t *queue) {
-    if (queue->tail == queue->head) {
-        return NULL;
-    }
-    void* handle = queue->data[queue->tail];
-    queue->data[queue->tail] = NULL;
-    queue->tail = (queue->tail + 1) % queue->size;
-    return handle;
+bool initSsq(statStructQueue_t *queue, statStruct_t *stat)
+{
+  if (stat->cpuNum == 0)
+  {
+    return false;
+  }
+  size_t i = 0;
+  *queue = (statStructQueue_t){0, 0, MAX_QUEUE_SIZE,
+                               malloc(MAX_QUEUE_SIZE * sizeof(statStruct_t))};
+  for (i = 0; i < MAX_QUEUE_SIZE; ++i)
+  {
+    queue->stats[i].cpu = calloc(stat->cpuNum, sizeof(cpuStruct_t));
+  }
+  return true;
 }
 
-int queue_write(queue_t *queue, void* handle) {
-    if (((queue->head + 1) % queue->size) == queue->tail) {
-        return -1;
-    }
-    queue->data[queue->head] = handle;
-    queue->head = (queue->head + 1) % queue->size;
-    return 0;
-}
-*/
-bool dequeue(statStructQueue_t *queue, statStruct_t *stat)
+bool freeSsq(statStructQueue_t *queue)
 {
-  if (isEmpty(queue))
+  size_t i = 0;
+  for (; i < MAX_QUEUE_SIZE; ++i)
+  {
+    free(queue->stats[i].cpu);
+  }
+  free(queue->stats);
+  return true;
+}
+
+bool dequeueSsq(statStructQueue_t *queue, statStruct_t *stat)
+{
+  if (isEmptySsq(queue))
   {
     return false;
   }
@@ -34,7 +41,7 @@ bool dequeue(statStructQueue_t *queue, statStruct_t *stat)
   return true;
 }
 
-bool enqueue(statStructQueue_t *queue, statStruct_t *stat)
+bool enqueueSsq(statStructQueue_t *queue, statStruct_t *stat)
 {
   if (((queue->head + 1) % queue->maxSize) == queue->tail)
   {
@@ -48,4 +55,7 @@ bool enqueue(statStructQueue_t *queue, statStruct_t *stat)
   return true;
 }
 
-bool isEmpty(statStructQueue_t *queue) { return (queue->head == queue->tail); }
+bool isEmptySsq(statStructQueue_t *queue)
+{
+  return (queue->head == queue->tail);
+}
