@@ -38,7 +38,9 @@ endif()
 
 # tests
 add_executable(reader_test ${PROJECT_SOURCE_DIR}/tests/readerTest.c)
-target_link_libraries(reader_test -lpthread -lX11)
+add_executable(msTimer_test ${PROJECT_SOURCE_DIR}/tests/msTimerTest.c)
+target_link_libraries(reader_test -lpthread -lX11 )
+target_link_libraries(msTimer_test -lpthread -lX11 ${PROJECT_SOURCE_DIR}/source/msTimer.c)
 
 enable_testing()
 
@@ -46,4 +48,9 @@ enable_testing()
 add_test(
   NAME reader_test
   COMMAND $<TARGET_FILE:reader_test>
+)
+
+add_test(
+  NAME msTimer_test
+  COMMAND $<TARGET_FILE:msTimer_test>
 )

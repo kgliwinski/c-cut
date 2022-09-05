@@ -5,7 +5,7 @@ static struct timespec time_s;
 time_t getTimeInMs()
 {
   clock_gettime(CLOCK_MONOTONIC_RAW, &time_s);
-  return time_s.tv_sec * 1000.0f + time_s.tv_nsec / 1000000.0f;
+  return time_s.tv_sec * 1000 + time_s.tv_nsec / 1000000;
 }
 
 void initMst(msTimer_t* timer) 
