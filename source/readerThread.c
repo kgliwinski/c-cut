@@ -43,12 +43,15 @@ void *readerFunc(void *arg)
     if (!readProcStat(buff, tmp, procStat, &stat))
     {
       // TODO log
-      printf("ERROR: cannot open /proc/stat\n");
+      printf("ERROR: wrong /proc/stat\n");
     }
-    stat.sampleTimeMS = getTimeMst(&cutTimer);
-    if (enqueueSsq(&statQueue, &stat))
+    else
     {
-      printf("Enqueue works\n");
+      stat.sampleTimeMS = getTimeMst(&cutTimer);
+      if (enqueueSsq(&statQueue, &stat))
+      {
+        printf("Enqueue works\n");
+      }
     }
     usleep(READER_SLEEP_TIME);
   }

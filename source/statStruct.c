@@ -11,12 +11,18 @@ bool scanProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat)
 
   while ((feof(procStat)) != -1)
   {
-    fscanf(procStat, "%s", buff);
+    if (fscanf(procStat, "%s", buff) != 1)
+    {
+      return false;
+    }
     {
       if (strcmp(strncpy(tmp, buff, 3), "cpu") == 0)
       {
         // read first seven numbers of each cpu
-        fscanf(procStat, "%*[^\n]\n");
+        if (fscanf(procStat, "%*[^\n]\n") != 0)
+        {
+          return false;
+        }
         stat->cpuNum++;
       }
       else
@@ -28,7 +34,6 @@ bool scanProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat)
   }
 
   fclose(procStat);
-
   return true;
 }
 
@@ -43,26 +48,31 @@ bool readProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat)
 
   while ((feof(procStat)) != -1)
   {
-    fscanf(procStat, "%s", buff);
+    if (fscanf(procStat, "%s", buff) != 1)
     {
-      if (strcmp(strncpy(tmp, buff, 3), "cpu") == 0)
+      return false;
+    }
+
+    if (strcmp(strncpy(tmp, buff, 3), "cpu") == 0)
+    {
+      // read first seven numbers of each cpu
+      if (fscanf(procStat, "%llu %llu %llu %llu %llu %llu %llu %*[^\n]\n",
+                 &stat->cpu[i].user, &stat->cpu[i].nice, &stat->cpu[i].system,
+                 &stat->cpu[i].idle, &stat->cpu[i].iowait, &stat->cpu[i].irq,
+                 &stat->cpu[i].softirq) != 7)
       {
-        // read first seven numbers of each cpu
-        fscanf(procStat, "%llu %llu %llu %llu %llu %llu %llu %*[^\n]\n",
-               &stat->cpu[i].user, &stat->cpu[i].nice, &stat->cpu[i].system,
-               &stat->cpu[i].idle, &stat->cpu[i].iowait, &stat->cpu[i].irq,
-               &stat->cpu[i].softirq);
-        /*printf("%s, %llu, %llu, %llu, %llu, %llu, %llu, %llu,\n", buff,
-               stat->cpu[i].user, stat->cpu[i].nice, stat->cpu[i].system,
-               stat->cpu[i].idle, stat->cpu[i].iowait, stat->cpu[i].irq,
-               stat->cpu[i].softirq);*/
-        i++;
+        return false;
       }
-      else
-      {
-        fclose(procStat);
-        return true;
-      }
+      /*printf("%s, %llu, %llu, %llu, %llu, %llu, %llu, %llu,\n", buff,
+             stat->cpu[i].user, stat->cpu[i].nice, stat->cpu[i].system,
+             stat->cpu[i].idle, stat->cpu[i].iowait, stat->cpu[i].irq,
+             stat->cpu[i].softirq);*/
+      i++;
+    }
+    else
+    {
+      fclose(procStat);
+      return true;
     }
   }
   fclose(procStat);
