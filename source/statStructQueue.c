@@ -7,9 +7,9 @@ bool initSsq(statStructQueue_t *queue, statStruct_t *stat)
     return false;
   }
   size_t i = 0;
-  *queue = (statStructQueue_t){0, 0, MAX_QUEUE_SIZE,
-                               malloc(MAX_QUEUE_SIZE * sizeof(statStruct_t))};
-  for (i = 0; i < MAX_QUEUE_SIZE; ++i)
+  *queue = (statStructQueue_t){0, 0, MAX_STAT_QUEUE_SIZE,
+                               malloc(MAX_STAT_QUEUE_SIZE * sizeof(statStruct_t))};
+  for (i = 0; i < MAX_STAT_QUEUE_SIZE; ++i)
   {
     queue->stats[i].cpu = calloc(stat->cpuNum, sizeof(cpuStruct_t));
   }
@@ -19,7 +19,7 @@ bool initSsq(statStructQueue_t *queue, statStruct_t *stat)
 bool freeSsq(statStructQueue_t *queue)
 {
   size_t i = 0;
-  for (; i < MAX_QUEUE_SIZE; ++i)
+  for (; i < MAX_STAT_QUEUE_SIZE; ++i)
   {
     free(queue->stats[i].cpu);
   }

@@ -4,7 +4,7 @@
 #include "statStruct.h"
 #include "stdbool.h"
 
-#define MAX_QUEUE_SIZE 25
+#define MAX_STAT_QUEUE_SIZE 25
 
 /*! \brief Simple queue (circle buffer) based on
  * https://gist.github.com/ryankurte/61f95dc71133561ed055ff62b33585f8 */

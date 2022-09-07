@@ -4,16 +4,19 @@
 
 #include "cutThreads.h"
 #include "statStructQueue.h"
+#include "logQueue.h"
 #include "msTimer.h"
 
 cutThreads_t cutThreads;
 statStructQueue_t statQueue;
+logQueue_t logsQueue;
 size_t statCpuNum;
 msTimer_t cutTimer;
 
 int main()
 {
   initMst(&cutTimer);
+  initLq(&logsQueue);
   pthread_create(&cutThreads.readerThread, NULL, &readerFunc, NULL);
   pthread_create(&cutThreads.analyzerThread, NULL, &analyzerFunc, NULL);
   pthread_create(&cutThreads.printerThread, NULL, &printerFunc, NULL);
@@ -30,6 +33,7 @@ int main()
   pthread_join(cutThreads.loggerThread, NULL);
   
   freeSsq(&statQueue);
+  freeLq(&logsQueue);
   printf("In main\n");
   return EXIT_SUCCESS;
 }
