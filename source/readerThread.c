@@ -1,11 +1,13 @@
 #include "cutThreads.h"
 #include "statStruct.h"
 #include "statStructQueue.h"
+#include "logQueue.h"
 
 #define BUFF_SIZE 20
 #define TMP_SIZE 4
 
 extern statStructQueue_t statQueue;
+extern logQueue_t logsQueue;
 extern size_t statCpuNum;
 extern msTimer_t cutTimer;
 
@@ -50,7 +52,9 @@ void *readerFunc(void *arg)
       stat.sampleTimeMS = getTimeMst(&cutTimer);
       if (enqueueSsq(&statQueue, &stat))
       {
-        printf("Enqueue works\n");
+        // printf("Enqueue works\n");
+        //createLogLq(0, "Enqueue works!", &logsQueue, __FILE__, __LINE__);
+        LOG_CREATE(0, "Enqueue works!");
       }
     }
     usleep(READER_SLEEP_TIME);

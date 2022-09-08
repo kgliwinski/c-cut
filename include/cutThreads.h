@@ -2,6 +2,9 @@
 #define CUT_THREADS_H
 #include <pthread.h>
 #include <stdio.h>
+
+#include "logMacro.h"
+
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)

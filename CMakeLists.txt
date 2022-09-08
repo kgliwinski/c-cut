@@ -4,6 +4,25 @@ project(c-cut C)
 include(CTest)
 enable_testing()
 
+# tests
+add_executable(reader_test ${PROJECT_SOURCE_DIR}/tests/readerTest.c)
+add_executable(msTimer_test ${PROJECT_SOURCE_DIR}/tests/msTimerTest.c)
+target_link_libraries(reader_test -lpthread -lX11 )
+target_link_libraries(msTimer_test -lpthread -lX11 ${PROJECT_SOURCE_DIR}/source/msTimer.c)
+
+enable_testing()
+
+# define tests
+add_test(
+  NAME reader_test
+  COMMAND $<TARGET_FILE:reader_test>
+)
+
+add_test(
+  NAME msTimer_test
+  COMMAND $<TARGET_FILE:msTimer_test>
+)
+
 include_directories(
   ${PROJECT_SOURCE_DIR}/include
   ${PROJECT_SOURCE_DIR}/source
@@ -35,22 +54,3 @@ if(CMAKE_COMPILER_IS_GNUCC)
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "clang")
   add_compile_options(${PROJECT_NAME} PUBLIC -Weverything -pthread)
 endif()
-
-# tests
-add_executable(reader_test ${PROJECT_SOURCE_DIR}/tests/readerTest.c)
-add_executable(msTimer_test ${PROJECT_SOURCE_DIR}/tests/msTimerTest.c)
-target_link_libraries(reader_test -lpthread -lX11 )
-target_link_libraries(msTimer_test -lpthread -lX11 ${PROJECT_SOURCE_DIR}/source/msTimer.c)
-
-enable_testing()
-
-# define tests
-add_test(
-  NAME reader_test
-  COMMAND $<TARGET_FILE:reader_test>
-)
-
-add_test(
-  NAME msTimer_test
-  COMMAND $<TARGET_FILE:msTimer_test>
-)

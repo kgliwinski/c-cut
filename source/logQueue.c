@@ -2,11 +2,15 @@
 
 static const char* logTypeText[4] = {"LOG", "DEBUG", "WARNING", "ERROR"};
 
-void createLogLq(int logType, char* msg, logQueue_t* queue)
+
+
+void createLogLq(int logType, char* msg, logQueue_t* queue, const char* file,
+                 const int line)
 {
   char logText[MAX_LOGS_LENGTH];
-  if (sprintf(logText, "Log Type: %s;Log message: %s; At file: %s; Line: %d\n",
-              logTypeText[logType], msg, __FILE__, __LINE__) >= 0)
+  if (sprintf(logText,
+              "Log Type: %s; Log message: %s; At file: %s; Line: %d\n",
+              logTypeText[logType], msg, file, line) >= 0)
   {
     printf("%s", logText);
     printf("%ld\n", strlen(logText));
@@ -30,7 +34,7 @@ bool initLq(logQueue_t* queue)
   return true;
 }
 
-bool freeLq(logQueue_t *queue)
+bool freeLq(logQueue_t* queue)
 {
   size_t i = 0;
   for (; i < MAX_LOGS_QUEUE_SIZE; ++i)
@@ -38,6 +42,17 @@ bool freeLq(logQueue_t *queue)
     free(queue->logs[i]);
   }
   free(queue->logs);
+  return true;
+}
+
+bool dequeueLq(logQueue_t* queue, FILE* logFile)
+{
+  if (isEmptyLq(queue) || logFile == NULL)
+  {
+    return false;
+  }
+  fprintf(logFile, "%s", queue->logs[queue->tail]);
+  queue->tail = (queue->tail + 1) % queue->maxSize;
   return true;
 }
 

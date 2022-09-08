@@ -19,8 +19,8 @@ void *analyzerFunc(void *arg)
   {
     if (dequeueSsq(&statQueue, &stat))
     {
-      printf("Dequeue works\n");
-      printProcStat(&stat);
+      //printf("Dequeue works\n");
+      //printProcStat(&stat);
       i++;
     }
     usleep(ANALYZER_SLEEP_TIME);
