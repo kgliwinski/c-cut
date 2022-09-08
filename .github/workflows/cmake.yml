@@ -57,7 +57,7 @@ jobs:
       run: |
            pip install ValgrindCI
            echo "Summary report of errors"
-           valgrind-ci ${{github.workspace}}valgrind_file.xml --summary
-           valgrind-ci ${{github.workspace}}valgrind_file.xml --abort-on-errors # abort on errors
+           valgrind-ci ${{github.workspace}}/valgrind_file.xml --summary
+           valgrind-ci ${{github.workspace}}/valgrind_file.xml --abort-on-errors # abort on errors
 
       
