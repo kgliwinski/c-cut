@@ -45,18 +45,19 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
     
+    # written with the help of https://iramykytyn.dev/how-to-integrate-valgrind-into-github-actions
     - name: Valgrind test
       # Run valgrind test on built program
       working-directory: ${{github.workspace}}/build
       run: |
         sudo apt install valgrind
-        valgrind --leak-check=full ./c-cut --xml=yes --xml-file=unit_tests_valgrind.xml
+        valgrind --leak-check=full ./c-cut --xml=yes --xml-file=valgrind_file.xml
     
     - name: Valgrind memory check
       run: |
            pip install ValgrindCI
            echo "Summary report of errors"
-           valgrind-ci /path/to/output_file.xml --summary
-           valgrind-ci /path/to/output_file.xml --abort-on-errors # abort on errors
+           valgrind-ci /path/to/valgrind_file.xml --summary
+           valgrind-ci /path/to/valgrind_file.xml --abort-on-errors # abort on errors
 
       
