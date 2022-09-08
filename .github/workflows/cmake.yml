@@ -51,7 +51,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         sudo apt install valgrind
-        valgrind --leak-check=full ./c-cut --xml=yes --xml-file=${{github.workspace}}/valgrind_file.xml
+        valgrind --leak-check=full --xml=yes --xml-file=${{github.workspace}}/valgrind_file.xml ./c-cut 
     
     - name: Valgrind memory check
       run: |
