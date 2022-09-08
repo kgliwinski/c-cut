@@ -10,7 +10,7 @@ time_t getTimeInMs();
 
 /*! \struct msTime_t interfaces c timers to measure time
  *  in milliseconds*/
-typedef struct msTimer_t
+typedef struct
 {
   time_t startTime;
   bool enable;

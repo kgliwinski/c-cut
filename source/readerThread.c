@@ -39,7 +39,7 @@ void *readerFunc(void *arg)
   tmp[TMP_SIZE - 1] = '\0';
   // str = readProcStat();
   i = 0;
-  while (i++ < 3)
+  while (i++ < 7)
   {
     // measure sample time
     if (!readProcStat(buff, tmp, procStat, &stat))

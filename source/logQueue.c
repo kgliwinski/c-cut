@@ -12,8 +12,8 @@ void createLogLq(int logType, char* msg, logQueue_t* queue, const char* file,
               "Log Type: %s; Log message: %s; At file: %s; Line: %d\n",
               logTypeText[logType], msg, file, line) >= 0)
   {
-    printf("%s", logText);
-    printf("%ld\n", strlen(logText));
+    //printf("%s", logText);
+    //printf("%ld\n", strlen(logText));
     enqueueLq(queue, logText);
   }
 }

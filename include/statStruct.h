@@ -5,11 +5,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+
 #include "msTimer.h"
 
 /*! \struct cpuStruct_t constains data aquired when reading the
  *  cpuN data from /proc/stat*/
-typedef struct cpuStruct_t {
+typedef struct
+{
   unsigned long long int user;
   unsigned long long int nice;
   unsigned long long int system;
@@ -17,12 +19,16 @@ typedef struct cpuStruct_t {
   unsigned long long int iowait;
   unsigned long long int irq;
   unsigned long long int softirq;
+  unsigned long long int steal;
+  unsigned long long int guest;
+  unsigned long long int guest_nice;
 
 } cpuStruct_t;
 
 /*! \struct statStruct_t contains data from a whole reading of /proc/stat
  *  file, with the time of the reading*/
-typedef struct statStruct_t {
+typedef struct
+{
   time_t sampleTimeMS;
   size_t cpuNum;
   cpuStruct_t *cpu;

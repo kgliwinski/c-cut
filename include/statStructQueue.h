@@ -8,7 +8,7 @@
 
 /*! \brief Simple queue (circle buffer) based on
  * https://gist.github.com/ryankurte/61f95dc71133561ed055ff62b33585f8 */
-typedef struct statStructQueue_t
+typedef struct
 {
   size_t head;
   size_t tail;

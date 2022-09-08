@@ -8,12 +8,12 @@
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)
-#define READER_SLEEP_TIME 100000    // 100ms
+#define READER_SLEEP_TIME 1000000    // 1000ms
 #define ANALYZER_SLEEP_TIME 100000  // 100ms
 
 /*! \typedef cutThreads_t Contains pthread_t objects as well as memory buffors
  *  necessary in the programs execution*/
-typedef struct cutThreads_t
+typedef struct
 {
   pthread_t readerThread;
   pthread_t analyzerThread;

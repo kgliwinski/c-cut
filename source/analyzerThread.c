@@ -1,3 +1,4 @@
+#include "cpuAnalyzer.h"
 #include "cutThreads.h"
 #include "statStructQueue.h"
 
@@ -12,20 +13,31 @@ void *analyzerFunc(void *arg)
   {
     sleep(1);
   }
-  statStruct_t stat = {.cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
-
-  stat.cpu = calloc(stat.cpuNum, sizeof(cpuStruct_t));
-  while (i < 3)
+  statStruct_t prevStat = {
+      .cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
+  prevStat.cpu = calloc(prevStat.cpuNum, sizeof(cpuStruct_t));
+  statStruct_t curStat = {.cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
+  curStat.cpu = calloc(curStat.cpuNum, sizeof(cpuStruct_t));
+  dequeueSsq(&statQueue, &prevStat);
+  statStruct_t helpStat = {.cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
+  helpStat.cpu = calloc(helpStat.cpuNum, sizeof(cpuStruct_t));
+  while (i < 6)
   {
-    if (dequeueSsq(&statQueue, &stat))
+    if (dequeueSsq(&statQueue, &curStat))
     {
-      //printf("Dequeue works\n");
-      //printProcStat(&stat);
+      printf("%f %%\n", calculateCpuUsePerc(prevStat.cpu[0], curStat.cpu[0]));
+      //printProcStat(&prevStat);
+      // manipulating the memory not to copy whole structures
+      helpStat = curStat;
+      curStat = prevStat;
+      prevStat = helpStat;
+      //printProcStat(&curStat);
       i++;
     }
     usleep(ANALYZER_SLEEP_TIME);
   }
-  free(stat.cpu);
-
+  free(prevStat.cpu);
+  free(curStat.cpu);
+  //free(helpStat.cpu);
   return 0;
 }

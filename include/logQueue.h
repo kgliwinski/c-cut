@@ -24,7 +24,7 @@ enum logTypes
 };
 
 /*! \struct logQueue_t constains array of strings to be saved*/
-typedef struct logQueue_t
+typedef struct
 {
   size_t head;
   size_t tail;

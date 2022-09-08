@@ -5,6 +5,8 @@
 
 extern logQueue_t logsQueue;
 
+// TODO add time of log
+
 /*! \brief creates log and puts it on the logsQueue
     \param logType int indicating the log type (0-3)
     \param msg string for the message stored in log */

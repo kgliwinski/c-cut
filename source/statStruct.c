@@ -56,10 +56,12 @@ bool readProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat)
     if (strcmp(strncpy(tmp, buff, 3), "cpu") == 0)
     {
       // read first seven numbers of each cpu
-      if (fscanf(procStat, "%llu %llu %llu %llu %llu %llu %llu %*[^\n]\n",
+      if (fscanf(procStat,
+                 "%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu%*[^\n]\n",
                  &stat->cpu[i].user, &stat->cpu[i].nice, &stat->cpu[i].system,
                  &stat->cpu[i].idle, &stat->cpu[i].iowait, &stat->cpu[i].irq,
-                 &stat->cpu[i].softirq) != 7)
+                 &stat->cpu[i].softirq, &stat->cpu[i].steal,
+                 &stat->cpu[i].guest, &stat->cpu[i].guest_nice) != 10)
       {
         return false;
       }
@@ -84,9 +86,11 @@ void printProcStat(statStruct_t *stat)
   printf("TIME: %lu\n", stat->sampleTimeMS);
   for (size_t i = 0; i < stat->cpuNum; ++i)
   {
-    printf("CPU%lu: %llu, %llu, %llu, %llu, %llu, %llu, %llu\n", i,
-           stat->cpu[i].user, stat->cpu[i].nice, stat->cpu[i].system,
-           stat->cpu[i].idle, stat->cpu[i].iowait, stat->cpu[i].irq,
-           stat->cpu[i].softirq);
+    printf(
+        "CPU%lu: %llu, %llu, %llu, %llu, %llu, %llu, %llu, %llu, %llu, %llu \n",
+        i, stat->cpu[i].user, stat->cpu[i].nice, stat->cpu[i].system,
+        stat->cpu[i].idle, stat->cpu[i].iowait, stat->cpu[i].irq,
+        stat->cpu[i].softirq, stat->cpu[i].steal, stat->cpu[i].guest,
+        stat->cpu[i].guest_nice);
   }
 }
