@@ -51,13 +51,13 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         sudo apt install valgrind
-        valgrind --leak-check=full ./c-cut --xml=yes --xml-file=valgrind_file.xml
+        valgrind --leak-check=full ./c-cut --xml=yes --xml-file=${{github.workspace}}/valgrind_file.xml
     
     - name: Valgrind memory check
       run: |
            pip install ValgrindCI
            echo "Summary report of errors"
-           valgrind-ci /path/to/valgrind_file.xml --summary
-           valgrind-ci /path/to/valgrind_file.xml --abort-on-errors # abort on errors
+           valgrind-ci ${{github.workspace}}valgrind_file.xml --summary
+           valgrind-ci ${{github.workspace}}valgrind_file.xml --abort-on-errors # abort on errors
 
       
