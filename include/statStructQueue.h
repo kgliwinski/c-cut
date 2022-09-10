@@ -18,7 +18,7 @@ typedef struct
 
 /*! \brief Allocates memory for the queue,
  *  for elements of stat size, \returns false if stat.cpuNum == 0 */
-bool initSsq(statStructQueue_t *queue, statStruct_t *stat);
+bool initSsq(statStructQueue_t *queue, size_t cpuNum);
 
 /*! \brief Deallocates memory of the queue,
     \returns false if stat.cpuNum == 0 */

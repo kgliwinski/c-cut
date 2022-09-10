@@ -1,3 +1,3 @@
-Log Type: LOG; Log message: Enqueue works!; At file: /home/krzysztof/c-cut/source/readerThread.c; Line: 57
-Log Type: LOG; Log message: Enqueue works!; At file: /home/krzysztof/c-cut/source/readerThread.c; Line: 57
-Log Type: LOG; Log message: Enqueue works!; At file: /home/krzysztof/c-cut/source/readerThread.c; Line: 57
+[1] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/readerThread.c; at line 45
+[1001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/readerThread.c; at line 45
+[2001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/readerThread.c; at line 45

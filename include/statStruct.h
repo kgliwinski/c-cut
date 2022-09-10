@@ -35,7 +35,7 @@ typedef struct
 } statStruct_t;
 
 /*! \brief scans the contents of /proc/stat to determine number of cpus*/
-bool scanProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat);
+bool scanProcStat(size_t *cpuNum);
 
 /*! \brief Reads the most important contents of the /proc/stat file*/
 bool readProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat);

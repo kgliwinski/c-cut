@@ -11,8 +11,6 @@
 #define MAX_LOGS_QUEUE_SIZE 25
 #define MAX_LOGS_LENGTH 255
 
-
-
 /*! \enum logTypes contains different log codes,
  *  used with logTypeText char array located in \file logQueue.c */
 enum logTypes
@@ -33,7 +31,7 @@ typedef struct
 } logQueue_t;
 
 /*! \brief Creates a log string and puts it on a logQueue*/
-void createLogLq(int logType, char *msg, logQueue_t *queue, const char *file,
+void createLogLq(time_t time, int logType, char *msg, logQueue_t *queue, const char *file,
                  const int line);
 
 /*! \brief Allocates memory for the queue,

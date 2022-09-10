@@ -2,18 +2,15 @@
 
 static const char* logTypeText[4] = {"LOG", "DEBUG", "WARNING", "ERROR"};
 
-
-
-void createLogLq(int logType, char* msg, logQueue_t* queue, const char* file,
-                 const int line)
+void createLogLq(time_t time, int logType, char* msg, logQueue_t* queue,
+                 const char* file, const int line)
 {
   char logText[MAX_LOGS_LENGTH];
-  if (sprintf(logText,
-              "Log Type: %s; Log message: %s; At file: %s; Line: %d\n",
-              logTypeText[logType], msg, file, line) >= 0)
+  if (sprintf(logText, "[%lu] ms, %s; %s; in file %s; at line %d\n", time, logTypeText[logType], msg,
+              file, line) >= 0)
   {
-    //printf("%s", logText);
-    //printf("%ld\n", strlen(logText));
+    // printf("%s", logText);
+    // printf("%ld\n", strlen(logText));
     enqueueLq(queue, logText);
   }
 }

@@ -1,8 +1,8 @@
 #include "statStructQueue.h"
 
-bool initSsq(statStructQueue_t *queue, statStruct_t *stat)
+bool initSsq(statStructQueue_t *queue, size_t cpuNum)
 {
-  if (stat->cpuNum == 0)
+  if (cpuNum == 0)
   {
     return false;
   }
@@ -11,7 +11,7 @@ bool initSsq(statStructQueue_t *queue, statStruct_t *stat)
                                malloc(MAX_STAT_QUEUE_SIZE * sizeof(statStruct_t))};
   for (i = 0; i < MAX_STAT_QUEUE_SIZE; ++i)
   {
-    queue->stats[i].cpu = calloc(stat->cpuNum, sizeof(cpuStruct_t));
+    queue->stats[i].cpu = calloc(cpuNum, sizeof(cpuStruct_t));
   }
   return true;
 }

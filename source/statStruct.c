@@ -1,35 +1,37 @@
 #include "statStruct.h"
 
-bool scanProcStat(char *buff, char *tmp, FILE *procStat, statStruct_t *stat)
+bool scanProcStat(size_t *cpuNum)
 {
+  FILE *procStat;
   if ((procStat = fopen("/proc/stat", "r")) == NULL)
   {
     return false;
   }
   rewind(procStat);
-  stat->cpuNum = 0;
-
+  *cpuNum = 0;
+  char buff[25] = "";
+  char tmp[4] = "";
+  tmp[3] = '\0';
   while ((feof(procStat)) != -1)
   {
     if (fscanf(procStat, "%s", buff) != 1)
     {
       return false;
     }
+
+    if (strcmp(strncpy(tmp, buff, 3), "cpu") == 0)
     {
-      if (strcmp(strncpy(tmp, buff, 3), "cpu") == 0)
+      // skip whole line
+      if (fscanf(procStat, "%*[^\n]\n") != 0)
       {
-        // read first seven numbers of each cpu
-        if (fscanf(procStat, "%*[^\n]\n") != 0)
-        {
-          return false;
-        }
-        stat->cpuNum++;
+        return false;
       }
-      else
-      {
-        fclose(procStat);
-        return true;
-      }
+      (*cpuNum)++;
+    }
+    else
+    {
+      fclose(procStat);
+      return true;
     }
   }
 

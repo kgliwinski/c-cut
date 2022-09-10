@@ -20,21 +20,9 @@ void *readerFunc(void *arg)
   char *tmp = calloc(TMP_SIZE, sizeof(char));
   FILE *procStat = NULL;
 
-  statStruct_t stat = {.cpuNum = 0, .sampleTimeMS = 0, .cpu = NULL};
+  statStruct_t stat = {.cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
 
-  if (!scanProcStat(buff, tmp, procStat, &stat))
-  {
-    // TODO log
-    printf("ERROR: Cannot scan /proc/stat\n");
-  }
-  statCpuNum = stat.cpuNum;
   stat.cpu = calloc(stat.cpuNum, sizeof(cpuStruct_t));
-
-  if (!initSsq(&statQueue, &stat))
-  {
-    // TODO log
-    printf("Error init\n");
-  }
 
   tmp[TMP_SIZE - 1] = '\0';
   // str = readProcStat();
