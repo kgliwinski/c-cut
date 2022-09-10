@@ -49,6 +49,12 @@ target_link_libraries(reader_test -lpthread -lX11)
 add_executable(msTimer_test ${PROJECT_SOURCE_DIR}/tests/msTimerTest.c ${test_SRCS})
 target_link_libraries(msTimer_test -lpthread -lX11)
 
+add_executable(logQueue_test ${PROJECT_SOURCE_DIR}/tests/logQueueTest.c ${test_SRCS})
+target_link_libraries(logQueue_test -lpthread -lX11)
+
+add_executable(cpuAnalyzer_test ${PROJECT_SOURCE_DIR}/tests/cpuAnalyzerTest.c ${test_SRCS})
+target_link_libraries(cpuAnalyzer_test -lpthread -lX11)
+
 # define tests
 add_test(
   NAME reader_test
@@ -58,4 +64,14 @@ add_test(
 add_test(
   NAME msTimer_test
   COMMAND $<TARGET_FILE:msTimer_test>
+)
+
+add_test(
+  NAME logQueue_test 
+  COMMAND $<TARGET_FILE:logQueue_test>
+)
+
+add_test(
+  NAME cpuAnalyzer_test
+  COMMAND $<TARGET_FILE:cpuAnalyzer_test>
 )

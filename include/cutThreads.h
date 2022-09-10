@@ -1,6 +1,7 @@
 #ifndef CUT_THREADS_H
 #define CUT_THREADS_H
 #include <pthread.h>
+#include <signal.h>
 #include <stdio.h>
 
 #include "logMacro.h"
@@ -8,10 +9,10 @@
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)
-#define READER_SLEEP_TIME 1000000    // 1000ms
+#define READER_SLEEP_TIME 1000000   // 1000ms
 #define ANALYZER_SLEEP_TIME 100000  // 100ms
-#define PRINTER_SLEEP_TIME 100000  // 100ms
-#define LOGGER_SLEEP_TIME 100000  // 100ms
+#define PRINTER_SLEEP_TIME 100000   // 100ms
+#define LOGGER_SLEEP_TIME 100000    // 100ms
 #define WATCHDOG_SLEEP_TIME 100000  // 100ms
 
 /*! \typedef cutThreads_t Contains pthread_t objects as well as memory buffors
@@ -24,6 +25,11 @@ typedef struct
   pthread_t watchdogThread;
   pthread_t loggerThread;
 
+  pid_t readerPid;
+  pid_t analyzerPid;
+  pid_t printerPid;
+  pid_t watchdogPid;
+  pid_t loggerPid;
 } cutThreads_t;
 
 /*! \brief Reads the contents of /proc/stat file and sends

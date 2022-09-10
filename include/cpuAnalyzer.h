@@ -19,7 +19,7 @@ typedef struct
 } analyzerQueue_t;
 
 /*! \brief Allocates memory for the queue,
- *  for elements of stat size, \returns false if stat.cpuNum == 0 */
+ *  for elements of stat size, \returns false if cpuNum == 0 */
 bool initAq(analyzerQueue_t *queue, size_t cpuNum);
 
 /*! \brief Deallocates memory of the queue,

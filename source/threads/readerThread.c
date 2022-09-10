@@ -1,11 +1,12 @@
 #include "cutThreads.h"
+#include "logQueue.h"
 #include "statStruct.h"
 #include "statStructQueue.h"
-#include "logQueue.h"
 
 #define BUFF_SIZE 20
 #define TMP_SIZE 4
 
+extern cutThreads_t cutThreads;
 extern statStructQueue_t statQueue;
 extern logQueue_t logsQueue;
 extern size_t statCpuNum;
@@ -14,6 +15,7 @@ extern msTimer_t cutTimer;
 void *readerFunc(void *arg)
 {
   (void)arg;  // to hide the unused parameter warning
+  cutThreads.readerPid = getpid();
   char *buff = calloc(BUFF_SIZE, sizeof(char));
   char *tmp = calloc(TMP_SIZE, sizeof(char));
   FILE *procStat = NULL;
@@ -37,7 +39,7 @@ void *readerFunc(void *arg)
       if (enqueueSsq(&statQueue, &stat))
       {
         // printf("Enqueue works\n");
-        //createLogLq(0, "Enqueue works!", &logsQueue, __FILE__, __LINE__);
+        // createLogLq(0, "Enqueue works!", &logsQueue, __FILE__, __LINE__);
         LOG_CREATE(0, "Enqueue works!");
       }
     }

@@ -23,7 +23,7 @@ float calculateCpuUsePerc(cpuStruct_t prevCpu, cpuStruct_t curCpu)
 
 bool initAq(analyzerQueue_t *queue, size_t cpuNum)
 {
-  if (MAX_ANALYZER_QUEUE_SIZE == 0)
+  if (MAX_ANALYZER_QUEUE_SIZE == 0 || cpuNum == 0)
   {
     return false;
   }
@@ -39,6 +39,10 @@ bool initAq(analyzerQueue_t *queue, size_t cpuNum)
 
 bool freeAq(analyzerQueue_t *queue)
 {
+  if(queue->cpuNum == 0 || queue->cpuPerc == NULL)
+  {
+    return 0;
+  }
   size_t i = 0;
   for (; i < MAX_ANALYZER_QUEUE_SIZE; ++i)
   {

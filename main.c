@@ -7,16 +7,23 @@
 #include "logQueue.h"
 #include "msTimer.h"
 #include "statStructQueue.h"
+#include "sigtermHandler.h"
 
 cutThreads_t cutThreads;
+
+// queues
 statStructQueue_t statQueue;
 logQueue_t logsQueue;
 analyzerQueue_t analyzerQueue;
+
+// other
 size_t statCpuNum;
 msTimer_t cutTimer;
 
 int main()
 {
+  signal(SIGINT, handle_sigint);
+
   if (!scanProcStat(&statCpuNum))
   {
     printf("ERROR: Cannot scan /proc/stat\n");
@@ -59,6 +66,6 @@ int main()
   freeLq(&logsQueue);
   freeAq(&analyzerQueue);
   
-  printf("In main\n");
+  printf("\nProgram exit\n");
   return EXIT_SUCCESS;
 }

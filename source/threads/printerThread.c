@@ -4,15 +4,15 @@
 #include "cpuAnalyzer.h"
 #include "color.h"
 
-
+extern cutThreads_t cutThreads;
 extern analyzerQueue_t analyzerQueue;
 extern size_t statCpuNum;
 
 void *printerFunc(void *arg)
 {
-    size_t i = 0, j;
     (void)arg;
-
+    size_t i = 0, j;
+    cutThreads.printerPid = getpid();
     float* cpuPercs = calloc(statCpuNum, sizeof(float));
     printf("%s",  KBLU);
     printf("CPU %5.5s|", "   " );

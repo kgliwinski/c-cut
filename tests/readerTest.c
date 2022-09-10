@@ -69,6 +69,12 @@ int main(int argc, char **argv)
   }
 
   i = 0;
+
+  if(isEmptySsq(&statQueue))
+  {
+    return EXIT_FAILURE;
+  }
+
   // compare if dequeued items are equal to enqueued
   while (i < TEST_NUM)
   {
@@ -101,6 +107,11 @@ int main(int argc, char **argv)
       i++;
     }
     usleep(100000);
+  }
+
+  if(!isEmptySsq(&statQueue))
+  {
+    return EXIT_FAILURE;
   }
 
   for (i = 0; i < TEST_NUM; ++i)

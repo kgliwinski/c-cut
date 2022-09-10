@@ -2,6 +2,7 @@
 #include "cutThreads.h"
 #include "statStructQueue.h"
 
+extern cutThreads_t cutThreads;
 extern statStructQueue_t statQueue;
 extern analyzerQueue_t analyzerQueue;
 extern size_t statCpuNum;
@@ -9,6 +10,7 @@ extern size_t statCpuNum;
 void *analyzerFunc(void *arg)
 {
   (void)arg;
+  cutThreads.analyzerPid = getpid();
   size_t i = 0;
   while (isEmptySsq(&statQueue))
   {
