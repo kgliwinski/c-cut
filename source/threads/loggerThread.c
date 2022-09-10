@@ -10,8 +10,7 @@ void *loggerFunc(void *arg)
   (void)arg;
   size_t i = 0;
   FILE *logFile = fopen("../c-cut_logs.txt", "w");
-  printf("Logger works!\n");
-  while (i < 3)
+  while (1)
   {
     if (dequeueLq(&logsQueue, logFile))
     {

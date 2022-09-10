@@ -14,6 +14,7 @@ typedef struct
   size_t head;
   size_t tail;
   size_t maxSize;
+  size_t cpuNum;
   float **cpuPerc;
 } analyzerQueue_t;
 
@@ -39,6 +40,6 @@ bool isEmptyAq(analyzerQueue_t *queue);
 /*! \brief calculates cpu usage of all cpus in /proc/stat
  *  Puts it on the logQueue */
 bool calculateAllCpus(statStruct_t *prevStat, statStruct_t *curStat,
-                      analyzerQueue_t *queue);
+                      analyzerQueue_t *queue, float *cpuPercs);
 
 #endif

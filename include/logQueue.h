@@ -35,7 +35,7 @@ void createLogLq(time_t time, int logType, char *msg, logQueue_t *queue, const c
                  const int line);
 
 /*! \brief Allocates memory for the queue,
- *  for elements of stat size, \returns false if stat.cpuNum == 0 */
+ *  for elements of stat size, \returns false if queue sizes == 0 */
 bool initLq(logQueue_t *queue);
 
 /*! \brief Deallocates memory of the queue,

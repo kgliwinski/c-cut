@@ -1,3 +1,0 @@
-[1] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/readerThread.c; at line 45
-[1001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/readerThread.c; at line 45
-[2001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/readerThread.c; at line 45

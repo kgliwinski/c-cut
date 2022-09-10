@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "cpuAnalyzer.h"
 #include "cutThreads.h"
 #include "logQueue.h"
 #include "msTimer.h"
@@ -10,6 +11,7 @@
 cutThreads_t cutThreads;
 statStructQueue_t statQueue;
 logQueue_t logsQueue;
+analyzerQueue_t analyzerQueue;
 size_t statCpuNum;
 msTimer_t cutTimer;
 
@@ -21,12 +23,23 @@ int main()
     return EXIT_FAILURE;
   }
   initMst(&cutTimer);
-  initLq(&logsQueue);
+  if (!initLq(&logsQueue))
+  {
+    return EXIT_FAILURE;
+  }
   if (!initSsq(&statQueue, statCpuNum))
   {
-    LOG_CREATE(ERROR, "Stat queue init fail");
+    // not gonna get called
+    //LOG_CREATE(ERROR, "Stat queue init fail");
+    printf("Stat queue init fail\n");
+    return EXIT_FAILURE;
   }
-  
+  if(!initAq(&analyzerQueue, statCpuNum))
+  {
+    printf("Analyzer queue init fail\n");
+    return EXIT_FAILURE;
+  }
+
   pthread_create(&cutThreads.readerThread, NULL, &readerFunc, NULL);
   pthread_create(&cutThreads.analyzerThread, NULL, &analyzerFunc, NULL);
   pthread_create(&cutThreads.printerThread, NULL, &printerFunc, NULL);
@@ -34,7 +47,7 @@ int main()
   pthread_create(&cutThreads.loggerThread, NULL, &loggerFunc, NULL);
 
   // TODO log
-  printf("START TIME: %lu\n", getTimeMst(&cutTimer));
+  LOG_CREATE(LOG, "Program starts");
 
   pthread_join(cutThreads.readerThread, NULL);
   pthread_join(cutThreads.analyzerThread, NULL);
@@ -44,6 +57,8 @@ int main()
 
   freeSsq(&statQueue);
   freeLq(&logsQueue);
+  freeAq(&analyzerQueue);
+  
   printf("In main\n");
   return EXIT_SUCCESS;
 }

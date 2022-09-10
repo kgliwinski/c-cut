@@ -28,9 +28,9 @@ bool initAq(analyzerQueue_t *queue, size_t cpuNum)
     return false;
   }
   size_t i = 0;
-  *queue = (analyzerQueue_t){0, 0, MAX_ANALYZER_QUEUE_SIZE,
-                             malloc(MAX_ANALYZER_QUEUE_SIZE * sizeof(float*))};
-  for(; i < MAX_ANALYZER_QUEUE_SIZE; ++i)
+  *queue = (analyzerQueue_t){0, 0, MAX_ANALYZER_QUEUE_SIZE, cpuNum,
+                             malloc(MAX_ANALYZER_QUEUE_SIZE * sizeof(float *))};
+  for (; i < MAX_ANALYZER_QUEUE_SIZE; ++i)
   {
     queue->cpuPerc[i] = calloc(cpuNum, sizeof(float));
   }
@@ -40,7 +40,7 @@ bool initAq(analyzerQueue_t *queue, size_t cpuNum)
 bool freeAq(analyzerQueue_t *queue)
 {
   size_t i = 0;
-  for(; i < MAX_ANALYZER_QUEUE_SIZE; ++i)
+  for (; i < MAX_ANALYZER_QUEUE_SIZE; ++i)
   {
     free(queue->cpuPerc[i]);
   }
@@ -48,11 +48,44 @@ bool freeAq(analyzerQueue_t *queue)
   return true;
 }
 
-bool dequeueAq(analyzerQueue_t *queue, float *cpus);
+bool dequeueAq(analyzerQueue_t *queue, float *cpus)
+{
+  if (isEmptyAq(queue))
+  {
+    return false;
+  }
+  memcpy(cpus, queue->cpuPerc[queue->tail], queue->cpuNum * sizeof(float));
+  queue->tail = (queue->tail + 1) % queue->maxSize;
+  return true;
+}
 
-bool enqueueAq(analyzerQueue_t *queue, float *cpus);
+bool enqueueAq(analyzerQueue_t *queue, float *cpus)
+{
+  if (((queue->head + 1) % queue->maxSize) == queue->tail)
+  {
+    return false;
+  }
+  memcpy(queue->cpuPerc[queue->head], cpus, queue->cpuNum * sizeof(float));
+  queue->head = (queue->head + 1) % queue->maxSize;
+  return true;
+}
 
 bool isEmptyAq(analyzerQueue_t *queue) { return (queue->head == queue->tail); }
 
 bool calculateAllCpus(statStruct_t *prevStat, statStruct_t *curStat,
-                      analyzerQueue_t *queue);
+                      analyzerQueue_t *queue, float *cpuPercs)
+{
+  bool exit = true;
+  if(prevStat->cpuNum != curStat->cpuNum)
+  {
+    return false;
+  }
+  size_t i = 0;
+  for(; i < queue->cpuNum; ++i)
+  {
+    cpuPercs[i] = calculateCpuUsePerc(prevStat->cpu[i], curStat->cpu[i]);
+    //printf("%f", cpuPercs[i]);
+  }
+  exit = enqueueAq(queue, cpuPercs);
+  return exit;
+}
