@@ -14,7 +14,6 @@ extern msTimer_t cutTimer;
 void *readerFunc(void *arg)
 {
   (void)arg;  // to hide the unused parameter warning
-  int i = 0;
   char *buff = calloc(BUFF_SIZE, sizeof(char));
   char *tmp = calloc(TMP_SIZE, sizeof(char));
   FILE *procStat = NULL;
@@ -25,14 +24,12 @@ void *readerFunc(void *arg)
 
   tmp[TMP_SIZE - 1] = '\0';
   // str = readProcStat();
-  i = 0;
   while (1)
   {
     // measure sample time
     if (!readProcStat(buff, tmp, procStat, &stat))
     {
-      // TODO log
-      printf("ERROR: wrong /proc/stat\n");
+      LOG_CREATE(ERROR, "/proc/stat not read");
     }
     else
     {

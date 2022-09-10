@@ -14,7 +14,7 @@ char* colorByCpuUse(float cpuUse)
 {
     if(cpuUse <= 20.0f)
     {
-        return KCYN;
+        return KWHT;
     }
     else if(cpuUse <= 50.0f)
     {
