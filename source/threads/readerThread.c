@@ -29,7 +29,6 @@ void *readerFunc(void *arg)
   // str = readProcStat();
   while (cutThreads.reader.run)
   {
-
     // measure sample time
     if (!readProcStat(buff, tmp, procStat, &stat))
     {
@@ -42,7 +41,10 @@ void *readerFunc(void *arg)
       {
         // printf("Enqueue works\n");
         // createLogLq(0, "Enqueue works!", &logsQueue, __FILE__, __LINE__);
-        LOG_CREATE(0, "Enqueue works!");
+      }
+      else
+      {
+        LOG_CREATE(LOG, "Stat not enqueued");
       }
     }
     usleep(READER_SLEEP_TIME);
