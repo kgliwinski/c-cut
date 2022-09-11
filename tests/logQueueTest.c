@@ -12,13 +12,7 @@ int main(int argc, char **argv)
     return EXIT_FAILURE;
   }
 
-  if (!initAq(&logQueue, 9))
-  {
-    printf("ERROR1\n");
-    return EXIT_FAILURE;
-  }
-
-  if (!freeAq(&logQueue))
+  if (!freeLq(&logQueue))
   {
     return EXIT_FAILURE;
   }

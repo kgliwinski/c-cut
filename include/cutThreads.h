@@ -17,19 +17,22 @@
 
 /*! \typedef cutThreads_t Contains pthread_t objects as well as memory buffors
  *  necessary in the programs execution*/
+
 typedef struct
 {
-  pthread_t readerThread;
-  pthread_t analyzerThread;
-  pthread_t printerThread;
-  pthread_t watchdogThread;
-  pthread_t loggerThread;
+  pthread_t thread;
+  pid_t pid;
+  pthread_mutex_t mutex;
+  bool run;
+} taskVars_t;
 
-  pid_t readerPid;
-  pid_t analyzerPid;
-  pid_t printerPid;
-  pid_t watchdogPid;
-  pid_t loggerPid;
+typedef struct
+{
+  taskVars_t reader;
+  taskVars_t analyzer;
+  taskVars_t printer;
+  taskVars_t watchdog;
+  taskVars_t logger;
 } cutThreads_t;
 
 /*! \brief Reads the contents of /proc/stat file and sends

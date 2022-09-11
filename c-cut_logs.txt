@@ -1,4 +1,5 @@
-[0] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 57
-[0] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 43
-[1001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 43
-[2001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 43
+[1] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 45
+[1] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 89
+[1001] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 45
+[2002] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 45
+[3002] ms, LOG; Enqueue works!; in file /home/krzysztof/c-cut/source/threads/readerThread.c; at line 45

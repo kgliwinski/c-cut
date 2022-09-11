@@ -1,23 +1,31 @@
 #ifndef SIGTERM_HANDLER_H
 #define SIGTERM_HANDLER_H
-#include "signal.h"
 #include "cutThreads.h"
+#include "signal.h"
 
 extern cutThreads_t cutThreads;
 
+bool killThread(taskVars_t* thread)
+{
+  thread->run = 0;
+  while (pthread_mutex_lock(&thread->mutex) != 0)
+  {
+    printf("%d", 1);
+    usleep(1000);
+  }
+  pthread_cancel(thread->thread);
+  return true;
+}
+
 void handle_sigint(int sig)
 {
-    //printf("Caught signal%d\n", sig);
-    pthread_kill(cutThreads.readerThread, sig);
-    pthread_kill(cutThreads.analyzerThread, sig);
-    pthread_kill(cutThreads.printerThread, sig);
-    pthread_kill(cutThreads.watchdogThread, sig);
-    pthread_kill(cutThreads.loggerThread, sig);
-    pthread_cancel(cutThreads.readerThread);
-    pthread_cancel(cutThreads.analyzerThread);
-    pthread_cancel(cutThreads.printerThread);
-    pthread_cancel(cutThreads.watchdogThread);
-    pthread_cancel(cutThreads.loggerThread);
+  printf("Caught signal%d\n", sig);
+
+  killThread(&cutThreads.reader);
+  killThread(&cutThreads.analyzer);
+  killThread(&cutThreads.printer);
+  killThread(&cutThreads.watchdog);
+  killThread(&cutThreads.logger);
 }
 
 #endif

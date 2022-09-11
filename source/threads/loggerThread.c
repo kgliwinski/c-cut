@@ -8,18 +8,23 @@ extern logQueue_t logsQueue;
 
 void *loggerFunc(void *arg)
 {
+  pthread_mutex_lock(&cutThreads.logger.mutex);
   (void)arg;
-  cutThreads.loggerPid = getpid();
-  size_t i = 0;
+  cutThreads.logger.pid = getpid();
   FILE *logFile = fopen("../c-cut_logs.txt", "w");
-  while (1)
+  while (cutThreads.logger.run || !isEmptyLq(&logsQueue))
   {
+
     if (dequeueLq(&logsQueue, logFile))
     {
-      i++;
     }
-    sleep(1);
+    if (isEmptyLq(&logsQueue))
+    {
+    }
+
+    usleep(LOGGER_SLEEP_TIME);
   }
   fclose(logFile);
+  pthread_mutex_unlock(&cutThreads.logger.mutex);
   return 0;
 }

@@ -15,7 +15,8 @@ extern msTimer_t cutTimer;
 void *readerFunc(void *arg)
 {
   (void)arg;  // to hide the unused parameter warning
-  cutThreads.readerPid = getpid();
+  cutThreads.reader.pid = getpid();
+  pthread_mutex_lock(&cutThreads.reader.mutex);
   char *buff = calloc(BUFF_SIZE, sizeof(char));
   char *tmp = calloc(TMP_SIZE, sizeof(char));
   FILE *procStat = NULL;
@@ -26,8 +27,9 @@ void *readerFunc(void *arg)
 
   tmp[TMP_SIZE - 1] = '\0';
   // str = readProcStat();
-  while (1)
+  while (cutThreads.reader.run)
   {
+
     // measure sample time
     if (!readProcStat(buff, tmp, procStat, &stat))
     {
@@ -49,6 +51,6 @@ void *readerFunc(void *arg)
   free(buff);
   free(tmp);
   free(stat.cpu);
-
+  pthread_mutex_unlock(&cutThreads.reader.mutex);
   return 0;
 }
