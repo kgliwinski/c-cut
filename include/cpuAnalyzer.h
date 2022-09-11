@@ -40,6 +40,6 @@ bool isEmptyAq(analyzerQueue_t *queue);
 /*! \brief calculates cpu usage of all cpus in /proc/stat
  *  Puts it on the logQueue */
 bool calculateAllCpus(statStruct_t *prevStat, statStruct_t *curStat,
-                      analyzerQueue_t *queue, float *cpuPercs);
+                      size_t cpuNum, float *cpuPercs);
 
 #endif

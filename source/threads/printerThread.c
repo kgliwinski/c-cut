@@ -24,7 +24,6 @@ void *printerFunc(void *arg)
 
   char buff[15] = "";
 
-  i = 0;
   pthread_mutex_lock(&cutThreads.printer.mutex);
   while (cutThreads.printer.run || !isEmptyAq(&analyzerQueue))
   {
@@ -41,12 +40,10 @@ void *printerFunc(void *arg)
       }
 
       fflush(stdout);
-      i++;
     }
 
     usleep(PRINTER_SLEEP_TIME);
   }
-  printf("\n");
   printf("%s", KNRM);
   free(cpuPercs);
   pthread_mutex_unlock(&cutThreads.printer.mutex);

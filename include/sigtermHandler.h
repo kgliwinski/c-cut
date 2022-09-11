@@ -19,7 +19,7 @@ bool killThread(taskVars_t* thread)
 
 void handle_sigint(int sig)
 {
-  printf("Caught signal%d\n", sig);
+  printf("\nUser signal %d\n", sig);
 
   killThread(&cutThreads.reader);
   killThread(&cutThreads.analyzer);

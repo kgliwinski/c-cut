@@ -9,9 +9,9 @@
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)
-#define READER_SLEEP_TIME 1000000   // 1000ms
+#define READER_SLEEP_TIME 100000   // 100ms
 #define ANALYZER_SLEEP_TIME 100000  // 100ms
-#define PRINTER_SLEEP_TIME 100000   // 100ms
+#define PRINTER_SLEEP_TIME 1000000  // 1s
 #define LOGGER_SLEEP_TIME 100000    // 100ms
 #define WATCHDOG_SLEEP_TIME 100000  // 100ms
 

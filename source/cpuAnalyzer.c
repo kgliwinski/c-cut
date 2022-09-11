@@ -77,7 +77,7 @@ bool enqueueAq(analyzerQueue_t *queue, float *cpus)
 bool isEmptyAq(analyzerQueue_t *queue) { return (queue->head == queue->tail); }
 
 bool calculateAllCpus(statStruct_t *prevStat, statStruct_t *curStat,
-                      analyzerQueue_t *queue, float *cpuPercs)
+                      size_t cpuNum, float *cpuPercs)
 {
   bool exit = true;
   if(prevStat->cpuNum != curStat->cpuNum)
@@ -85,11 +85,11 @@ bool calculateAllCpus(statStruct_t *prevStat, statStruct_t *curStat,
     return false;
   }
   size_t i = 0;
-  for(; i < queue->cpuNum; ++i)
+  for(; i < cpuNum; ++i)
   {
     cpuPercs[i] = calculateCpuUsePerc(prevStat->cpu[i], curStat->cpu[i]);
     //printf("%f", cpuPercs[i]);
   }
-  exit = enqueueAq(queue, cpuPercs);
+
   return exit;
 }

@@ -32,6 +32,7 @@ int main()
   initMst(&cutTimer);
   if (!initLq(&logsQueue))
   {
+    printf("Log queue init fail\n");
     return EXIT_FAILURE;
   }
   if (!initSsq(&statQueue, statCpuNum))
@@ -39,37 +40,31 @@ int main()
     // not gonna get called
     // LOG_CREATE(ERROR, "Stat queue init fail");
     printf("Stat queue init fail\n");
+    freeLq(&logsQueue);
     return EXIT_FAILURE;
   }
 
   if (!initAq(&analyzerQueue, statCpuNum))
   {
     printf("Analyzer queue init fail\n");
+    freeLq(&logsQueue);
+    freeSsq(&statQueue);
     return EXIT_FAILURE;
   }
 
-  if (pthread_mutex_init(&cutThreads.reader.mutex, PTHREAD_MUTEX_NORMAL) != 0)
+  if ((pthread_mutex_init(&cutThreads.reader.mutex, PTHREAD_MUTEX_NORMAL) !=
+       0) ||
+      (pthread_mutex_init(&cutThreads.analyzer.mutex, PTHREAD_MUTEX_NORMAL) !=
+       0) ||
+      (pthread_mutex_init(&cutThreads.printer.mutex, PTHREAD_MUTEX_NORMAL) !=
+       0) ||
+      (pthread_mutex_init(&cutThreads.watchdog.mutex, PTHREAD_MUTEX_NORMAL) !=
+       0) ||
+      (pthread_mutex_init(&cutThreads.logger.mutex, PTHREAD_MUTEX_NORMAL) != 0))
   {
-    return EXIT_FAILURE;
-  }
-
-  if (pthread_mutex_init(&cutThreads.analyzer.mutex, PTHREAD_MUTEX_NORMAL) != 0)
-  {
-    return EXIT_FAILURE;
-  }
-
-  if (pthread_mutex_init(&cutThreads.printer.mutex, PTHREAD_MUTEX_NORMAL) != 0)
-  {
-    return EXIT_FAILURE;
-  }
-
-  if (pthread_mutex_init(&cutThreads.watchdog.mutex, PTHREAD_MUTEX_NORMAL) != 0)
-  {
-    return EXIT_FAILURE;
-  }
-
-  if (pthread_mutex_init(&cutThreads.logger.mutex, PTHREAD_MUTEX_NORMAL) != 0)
-  {
+    freeLq(&logsQueue);
+    freeSsq(&statQueue);
+    freeAq(&analyzerQueue);
     return EXIT_FAILURE;
   }
 
@@ -98,6 +93,6 @@ int main()
   freeLq(&logsQueue);
   freeAq(&analyzerQueue);
 
-  printf("\nProgram exit\n");
+  printf("Program exit\n");
   return EXIT_SUCCESS;
 }
