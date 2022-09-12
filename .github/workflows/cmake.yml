@@ -47,17 +47,11 @@ jobs:
     
     # written with the help of https://iramykytyn.dev/how-to-integrate-valgrind-into-github-actions
     - name: Valgrind test
-      # Run valgrind test on built program
+       Run valgrind test on built program
       working-directory: ${{github.workspace}}/build
       run: |
-        sudo apt install valgrind
-        timeout -s INT 15s valgrind --leak-check=full --xml=yes --xml-file=${{github.workspace}}/valgrind_file.xml ./c-cut
-    
-    - name: Valgrind memory check
-      run: |
-           pip install ValgrindCI
-           echo "Summary report of errors"
-           valgrind-ci ${{github.workspace}}/valgrind_file.xml --summary
-           valgrind-ci ${{github.workspace}}/valgrind_file.xml --abort-on-errors # abort on errors
+        #sudo apt install valgrind
+        #timeout -s INT 15s valgrind --leak-check=full ./c-cut
+
 
       
