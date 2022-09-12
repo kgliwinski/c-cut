@@ -50,8 +50,8 @@ jobs:
        Run valgrind test on built program
       working-directory: ${{github.workspace}}/build
       run: |
-        #sudo apt install valgrind
-        #timeout -s INT 15s valgrind --leak-check=full ./c-cut
+        sudo apt install valgrind
+        timeout -s INT 15s valgrind --leak-check=full ./c-cut
 
 
       
