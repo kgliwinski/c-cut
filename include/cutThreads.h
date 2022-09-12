@@ -6,7 +6,6 @@
 
 #include "logMacro.h"
 #include "statStruct.h"
-#include "watchdogStruct.h"
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)

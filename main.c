@@ -15,7 +15,7 @@ cutThreads_t cutThreads;
 statStructQueue_t statQueue;
 logQueue_t logsQueue;
 analyzerQueue_t analyzerQueue;
-watchdogStruct_t wd;
+
 
 // other
 size_t statCpuNum;

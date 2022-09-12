@@ -1,6 +1,5 @@
 #include "cutThreads.h"
 
-extern watchdogStruct_t wd;
 extern cutThreads_t cutThreads;
 
 void *watchdogFunc(void *arg)

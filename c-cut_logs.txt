@@ -1,1 +1,1 @@
-[289] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 85
+[252] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 85

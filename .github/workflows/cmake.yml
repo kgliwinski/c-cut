@@ -52,7 +52,7 @@ jobs:
       run: |
         sudo apt install valgrind
         valgrind --leak-check=full --xml=yes --xml-file=${{github.workspace}}/valgrind_file.xml ./c-cut
-        ^C 
+        timeout -s INT 15s valgrind --leak-check=full --xml=yes --xml-file=${{github.workspace}}/valgrind_file.xml ./c-cut
     
     - name: Valgrind memory check
       run: |
