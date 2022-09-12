@@ -5,7 +5,8 @@
 #include <stdio.h>
 
 #include "logMacro.h"
-
+#include "statStruct.h"
+#include "watchdogStruct.h"
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)
@@ -53,5 +54,6 @@ void *watchdogFunc(void *arg);
 /*! \brief Gathers debug data from all other threads, formats them and saves
  *  data in other file*/
 void *loggerFunc(void *arg);
+
 
 #endif

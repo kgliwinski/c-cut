@@ -4,9 +4,12 @@
 #include "cpuAnalyzer.h"
 #include "cutThreads.h"
 
+
 extern cutThreads_t cutThreads;
 extern analyzerQueue_t analyzerQueue;
 extern size_t statCpuNum;
+
+extern watchdogStruct_t wd;
 
 void *printerFunc(void *arg)
 {
@@ -14,6 +17,8 @@ void *printerFunc(void *arg)
   size_t i = 0, j;
   cutThreads.printer.pid = getpid();
   float *cpuPercs = calloc(statCpuNum, sizeof(float));
+  wd.printerPtr.cpuPercs = cpuPercs;
+  
   printf("%s", KBLU);
   printf("CPU %5.5s|", "   ");
   for (i = 1; i < statCpuNum; ++i)
@@ -25,6 +30,8 @@ void *printerFunc(void *arg)
   char buff[15] = "";
 
   pthread_mutex_lock(&cutThreads.printer.mutex);
+
+  wd.freePrinter = 0;
   while (cutThreads.printer.run || !isEmptyAq(&analyzerQueue))
   {
     if (dequeueAq(&analyzerQueue, cpuPercs))
@@ -46,6 +53,8 @@ void *printerFunc(void *arg)
   }
   printf("%s", KNRM);
   free(cpuPercs);
+  
+  wd.freePrinter = 1;
   pthread_mutex_unlock(&cutThreads.printer.mutex);
   return 0;
 }

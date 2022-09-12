@@ -2,12 +2,15 @@
 #include "cutThreads.h"
 #include "statStructQueue.h"
 
+
 #define AVG_SAMPLES 10
 
 extern cutThreads_t cutThreads;
 extern statStructQueue_t statQueue;
 extern analyzerQueue_t analyzerQueue;
 extern size_t statCpuNum;
+
+extern watchdogStruct_t wd;
 
 void *analyzerFunc(void *arg)
 {
@@ -23,8 +26,12 @@ void *analyzerFunc(void *arg)
       .cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
   prevStat.cpu = calloc(prevStat.cpuNum, sizeof(cpuStruct_t));
 
+  wd.analyzerPtr.prevStat = &prevStat;
+
   statStruct_t curStat = {.cpuNum = statCpuNum, .sampleTimeMS = 0, .cpu = NULL};
   curStat.cpu = calloc(curStat.cpuNum, sizeof(cpuStruct_t));
+
+  wd.analyzerPtr.curStat = &curStat;
 
   dequeueSsq(&statQueue, &prevStat);
 
@@ -34,7 +41,11 @@ void *analyzerFunc(void *arg)
   // helpStat.cpu = calloc(helpStat.cpuNum, sizeof(cpuStruct_t));
 
   float *cpuPercs = calloc(statCpuNum, sizeof(float));
+  wd.analyzerPtr.cpuPercs = cpuPercs;
   float *cpuSum = calloc(statCpuNum, sizeof(float));
+  wd.analyzerPtr.cpuSum = cpuSum;
+  
+  wd.freeAnalyzer = 0;
   for (i = 0; i < statCpuNum; ++i)
   {
     cpuSum[i] = 0.0;
@@ -82,6 +93,8 @@ void *analyzerFunc(void *arg)
   free(curStat.cpu);
   free(cpuPercs);
   free(cpuSum);
+  
+  wd.freeAnalyzer = 1;
   // free(helpStat.cpu);
   pthread_mutex_unlock(&cutThreads.analyzer.mutex);
   return 0;
