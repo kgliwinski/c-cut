@@ -8,6 +8,7 @@
 #include "msTimer.h"
 #include "sigtermHandler.h"
 #include "statStructQueue.h"
+#include "watchdogTimer.h"
 
 cutThreads_t cutThreads;
 
@@ -20,6 +21,7 @@ analyzerQueue_t analyzerQueue;
 // other
 size_t statCpuNum;
 msTimer_t cutTimer;
+watchdogTimer_t wdTimers;
 
 int main()
 {
@@ -69,11 +71,11 @@ int main()
     return EXIT_FAILURE;
   }
 
-  cutThreads.reader.run = 1;
-  cutThreads.analyzer.run = 1;
-  cutThreads.printer.run = 1;
-  cutThreads.watchdog.run = 1;
-  cutThreads.logger.run = 1;
+  cutThreads.reader.run = 0;
+  cutThreads.analyzer.run = 0;
+  cutThreads.printer.run = 0;
+  cutThreads.watchdog.run = 0;
+  cutThreads.logger.run = 0;
 
   pthread_create(&cutThreads.reader.thread, NULL, &readerFunc, NULL);
   pthread_create(&cutThreads.analyzer.thread, NULL, &analyzerFunc, NULL);

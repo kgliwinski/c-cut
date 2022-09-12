@@ -6,6 +6,7 @@
 
 #include "logMacro.h"
 #include "statStruct.h"
+
 /*! \file Contains definitions for thread functions */
 
 // Sleep times (in us)

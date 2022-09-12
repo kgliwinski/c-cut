@@ -51,7 +51,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         sudo apt install valgrind
-        timeout -s INT 15s valgrind --leak-check=full ./c-cut
+        
 
 
       

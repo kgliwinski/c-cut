@@ -21,10 +21,10 @@ void handle_sigint(int sig)
 {
   printf("User signal %d", sig);
 
+  killThread(&cutThreads.watchdog);
   killThread(&cutThreads.reader);
   killThread(&cutThreads.analyzer);
   killThread(&cutThreads.printer);
-  killThread(&cutThreads.watchdog);
   killThread(&cutThreads.logger);
 }
 

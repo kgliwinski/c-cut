@@ -24,4 +24,7 @@ void initMst(msTimer_t* timer);
 /*! \returns milliseconds since timer start*/
 time_t getTimeMst(msTimer_t* timer);
 
+/*! \brief resets the timer - sets startTime to 0*/
+void resetTimerMst(msTimer_t* timer);
+
 #endif

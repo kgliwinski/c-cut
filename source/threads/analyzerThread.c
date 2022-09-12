@@ -1,6 +1,7 @@
 #include "cpuAnalyzer.h"
 #include "cutThreads.h"
 #include "statStructQueue.h"
+#include "watchdogTimer.h"
 
 #define AVG_SAMPLES 10
 
@@ -8,6 +9,7 @@ extern cutThreads_t cutThreads;
 extern statStructQueue_t statQueue;
 extern analyzerQueue_t analyzerQueue;
 extern size_t statCpuNum;
+extern watchdogTimer_t wdTimers;
 
 void *analyzerFunc(void *arg)
 {
@@ -42,8 +44,11 @@ void *analyzerFunc(void *arg)
     cpuSum[i] = 0.0;
   }
   j = 0;
+  
+  cutThreads.analyzer.run = 1;
   while (cutThreads.analyzer.run || !isEmptySsq(&statQueue))
   {
+    resetTimerMst(&wdTimers.analyzerTimer);
     if (dequeueSsq(&statQueue, &curStat))
     {
       calculateAllCpus(&prevStat, &curStat, statCpuNum, cpuPercs);

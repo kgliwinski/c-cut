@@ -2,6 +2,7 @@
 #include "logQueue.h"
 #include "statStruct.h"
 #include "statStructQueue.h"
+#include "watchdogTimer.h"
 
 #define BUFF_SIZE 20
 #define TMP_SIZE 4
@@ -11,6 +12,7 @@ extern statStructQueue_t statQueue;
 extern logQueue_t logsQueue;
 extern size_t statCpuNum;
 extern msTimer_t cutTimer;
+extern watchdogTimer_t wdTimers;
 
 void *readerFunc(void *arg)
 {
@@ -29,9 +31,11 @@ void *readerFunc(void *arg)
   tmp[TMP_SIZE - 1] = '\0';
   // str = readProcStat();
 
+  cutThreads.reader.run = 1;
   while (cutThreads.reader.run)
   {
     // measure sample time
+    resetTimerMst(&wdTimers.readerTimer);
     if (!readProcStat(buff, tmp, procStat, &stat))
     {
       LOG_CREATE(ERROR, "/proc/stat not read");

@@ -2,9 +2,11 @@
 
 #include "cutThreads.h"
 #include "logQueue.h"
+#include "watchdogTimer.h"
 
 extern cutThreads_t cutThreads;
 extern logQueue_t logsQueue;
+extern watchdogTimer_t wdTimers;
 
 void *loggerFunc(void *arg)
 {
@@ -13,8 +15,10 @@ void *loggerFunc(void *arg)
   cutThreads.logger.pid = getpid();
   FILE *logFile = fopen("../c-cut_logs.txt", "w");
 
+  cutThreads.logger.run = 1;
   while (cutThreads.logger.run || !isEmptyLq(&logsQueue))
   {
+    resetTimerMst(&wdTimers.loggerTimer);
     if (dequeueLq(&logsQueue, logFile))
     {
     }

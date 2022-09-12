@@ -3,10 +3,12 @@
 #include "color.h"
 #include "cpuAnalyzer.h"
 #include "cutThreads.h"
+#include "watchdogTimer.h"
 
 extern cutThreads_t cutThreads;
 extern analyzerQueue_t analyzerQueue;
 extern size_t statCpuNum;
+extern watchdogTimer_t wdTimers;
 
 void *printerFunc(void *arg)
 {
@@ -27,8 +29,10 @@ void *printerFunc(void *arg)
 
   pthread_mutex_lock(&cutThreads.printer.mutex);
 
+  cutThreads.printer.run = 1;
   while (cutThreads.printer.run || !isEmptyAq(&analyzerQueue))
   {
+    resetTimerMst(&wdTimers.printerTimer);
     if (dequeueAq(&analyzerQueue, cpuPercs))
     {
       printf("\r");
