@@ -1,1 +1,4 @@
-[0] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 87
+[252] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 87
+[302] ms, LOG; Stat queue empty; in file /home/krzysztof/c-cut/source/threads/analyzerThread.c; at line 68
+[2333] ms, LOG; Stat queue empty; in file /home/krzysztof/c-cut/source/threads/analyzerThread.c; at line 68
+[12881] ms, LOG; Stat queue empty; in file /home/krzysztof/c-cut/source/threads/analyzerThread.c; at line 68
