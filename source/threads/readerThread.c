@@ -52,10 +52,10 @@ void *readerFunc(void *arg)
         LOG_CREATE(LOG, "Stat not enqueued");
       }
     }
-    while(1)
-    {
-      usleep(READER_SLEEP_TIME);
-    }
+    // while(1)
+    // {
+    //   usleep(READER_SLEEP_TIME);
+    // }
     usleep(READER_SLEEP_TIME);
   }
 

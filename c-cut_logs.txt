@@ -1,2 +1,1 @@
-[0] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 87
-[201] ms, ERROR; Watchdog: Printer late; in file /home/krzysztof/c-cut/source/threads/watchdogThread.c; at line 25
+[1] ms, LOG; Program starts; in file /home/krzysztof/c-cut/main.c; at line 87
