@@ -35,8 +35,7 @@ Directory structure:
     ├── cpuAnalyzerTest.c
     ├── logQueueTest.c
     ├── msTimerTest.c
-    ├── readerTest.c
-    └── statStructQueueTest.c
+    └── readerTest.c
 ```
 
 ## Building and executing c-cut
