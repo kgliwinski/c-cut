@@ -18,7 +18,7 @@ void *printerFunc(void *arg)
 
   printf("%s", KBLU);
   printf("CPU %5.5s|", "   ");
-  for (i = 1; i < statCpuNum; ++i)
+  for (i = 0; i < statCpuNum - 1; ++i)
   {
     printf("CPU %lu%4.4s|", i, "   ");
   }

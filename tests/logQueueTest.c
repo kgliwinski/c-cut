@@ -1,18 +1,34 @@
+#include "logMacro.h"
+#include "logQueue.h"
 #include "stdlib.h"
 
-#include "logQueue.h"
-#include "logMacro.h"
+msTimer_t cutTimer;
+logQueue_t logsQueue;
 
-/// testing mainly the initialization and freeing of queue
 int main(int argc, char **argv)
 {
-  logQueue_t logQueue;
-  if(!initLq(&logQueue))
+  
+  if (!initLq(&logsQueue))
   {
     return EXIT_FAILURE;
   }
+  initMst(&cutTimer);
+  FILE *logFile = fopen("../tests/c-cut_logs_test.txt", "w");
 
-  if (!freeLq(&logQueue))
+  LOG_CREATE(LOG, "LOG TYPE");
+  LOG_CREATE(DEBUG, "DEBUG TYPE");
+  LOG_CREATE(WARNING, "WARING TYPE");
+  LOG_CREATE(ERROR, "ERROR TYPE");
+  int i = 0;
+  while (i++ < 4)
+  {
+    dequeueLq(&logsQueue, logFile);
+
+    usleep(1000);
+  }
+  fclose(logFile);
+
+  if (!freeLq(&logsQueue))
   {
     return EXIT_FAILURE;
   }

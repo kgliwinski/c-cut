@@ -18,12 +18,7 @@ void *loggerFunc(void *arg)
   while (cutThreads.logger.run || !isEmptyLq(&logsQueue))
   {
     resetTimerMst(&wdTimers.loggerTimer);
-    if (dequeueLq(&logsQueue, logFile))
-    {
-    }
-    if (isEmptyLq(&logsQueue))
-    {
-    }
+    dequeueLq(&logsQueue, logFile);
 
     usleep(LOGGER_SLEEP_TIME);
   }

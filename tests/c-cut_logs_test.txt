@@ -1,0 +1,4 @@
+[0] ms, LOG; LOG TYPE; in file /home/krzysztof/c-cut/tests/logQueueTest.c; at line 19
+[0] ms, DEBUG; DEBUG TYPE; in file /home/krzysztof/c-cut/tests/logQueueTest.c; at line 20
+[0] ms, WARNING; WARING TYPE; in file /home/krzysztof/c-cut/tests/logQueueTest.c; at line 21
+[0] ms, ERROR; ERROR TYPE; in file /home/krzysztof/c-cut/tests/logQueueTest.c; at line 22
