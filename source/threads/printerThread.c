@@ -14,7 +14,6 @@ void *printerFunc(void *arg)
 {
   (void)arg;
   size_t i = 0, j;
-  cutThreads.printer.pid = getpid();
   float *cpuPercs = calloc(statCpuNum, sizeof(float));
 
   printf("%s", KBLU);

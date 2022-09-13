@@ -14,7 +14,6 @@ extern watchdogTimer_t wdTimers;
 void *analyzerFunc(void *arg)
 {
   (void)arg;
-  cutThreads.analyzer.pid = getpid();
   size_t i = 0, j = 0;
   while (isEmptySsq(&statQueue))
   {

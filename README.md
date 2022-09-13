@@ -13,7 +13,8 @@ Directory structure:
 │   ├── msTimer.h
 │   ├── sigtermHandler.h
 │   ├── statStruct.h
-│   └── statStructQueue.h
+│   ├── statStructQueue.h
+│   └── watchdogTimer.h
 ├── LICENSE
 ├── main.c
 ├── README.md
@@ -23,12 +24,13 @@ Directory structure:
 │   ├── msTimer.c
 │   ├── statStruct.c
 │   ├── statStructQueue.c
-│   └── threads
-│       ├── analyzerThread.c
-│       ├── loggerThread.c
-│       ├── printerThread.c
-│       ├── readerThread.c
-│       └── watchdogThread.c
+│   ├── threads
+│   │   ├── analyzerThread.c
+│   │   ├── loggerThread.c
+│   │   ├── printerThread.c
+│   │   ├── readerThread.c
+│   │   └── watchdogThread.c
+│   └── watchdogTimer.c
 └── tests
     ├── cpuAnalyzerTest.c
     ├── logQueueTest.c

@@ -17,7 +17,6 @@ extern watchdogTimer_t wdTimers;
 void *readerFunc(void *arg)
 {
   (void)arg;  // to hide the unused parameter warning
-  cutThreads.reader.pid = getpid();
   pthread_mutex_lock(&cutThreads.reader.mutex);
   char *buff = calloc(BUFF_SIZE, sizeof(char));
 
@@ -52,6 +51,10 @@ void *readerFunc(void *arg)
       {
         LOG_CREATE(LOG, "Stat not enqueued");
       }
+    }
+    while(1)
+    {
+      usleep(READER_SLEEP_TIME);
     }
     usleep(READER_SLEEP_TIME);
   }

@@ -12,7 +12,6 @@ void *loggerFunc(void *arg)
 {
   pthread_mutex_lock(&cutThreads.logger.mutex);
   (void)arg;
-  cutThreads.logger.pid = getpid();
   FILE *logFile = fopen("../c-cut_logs.txt", "w");
 
   cutThreads.logger.run = 1;

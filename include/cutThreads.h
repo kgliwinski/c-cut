@@ -22,7 +22,6 @@
 typedef struct
 {
   pthread_t thread;
-  pid_t pid;
   pthread_mutex_t mutex;
   bool run;
 } taskVars_t;
